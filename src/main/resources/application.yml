@@ -3,7 +3,8 @@ micronaut:
     name: orm
   datasources:
     default:
-        url: jdbc:h2:mem:default;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-        username: rodack
-        password: rodack
-        driverClassName: org.h2.Driver
+      url: jdbc:h2:tcp://192.168.80.1:9092/rodack;schema=transmi
+      username: rodack
+      password: rodack
+      driverClassName: org.h2.Driver
+      sql-dialect: 'H2'

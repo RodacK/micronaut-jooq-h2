@@ -1,6 +1,10 @@
+import nu.studer.gradle.jooq.JooqEdition
+
 plugins {
     id "com.github.johnrengelman.shadow" version "6.0.0"
     id "io.micronaut.application" version '1.0.3'
+    id 'nu.studer.jooq' version '5.1.1'
+    id 'java'
 }
 
 version "0.1"
@@ -28,18 +32,50 @@ dependencies {
     implementation("io.micronaut:micronaut-http-client")
     runtimeOnly("ch.qos.logback:logback-classic")
     implementation("io.micronaut.sql:micronaut-jooq")
-    runtime("com.h2database:h2")
-    compile group: 'org.jooq', name: 'jooq', version: '3.13.5'
-    compile group: 'org.jooq', name: 'jooq-meta', version: '3.13.5'
-    compile group: 'org.jooq', name: 'jooq-codegen', version: '3.13.5'
+    implementation('com.h2database:h2:1.4.200')
+    jooqGenerator 'com.h2database:h2:1.4.200'
 }
 
 mainClassName = "com.uptc.Application"
 java {
-    sourceCompatibility = JavaVersion.toVersion('11')
-    targetCompatibility = JavaVersion.toVersion('11')
+    sourceCompatibility = JavaVersion.toVersion('1.8')
+    targetCompatibility = JavaVersion.toVersion('1.8')
 }
 
+jooq {
+    version = '3.13.5'
+    edition = JooqEdition.OSS
 
-
-
+    configurations {
+        main {
+            generationTool {
+                logging = org.jooq.meta.jaxb.Logging.WARN
+                jdbc {
+                    driver = 'org.h2.Driver'
+                    url = 'jdbc:h2:tcp://192.168.80.1:9092/rodack'
+                    user = 'rodack'
+                    password = 'rodack'
+                }
+                generator {
+                    name = 'org.jooq.codegen.DefaultGenerator'
+                    database {
+                        name = 'org.jooq.meta.h2.H2Database'
+                        includes = '.*'
+                        inputSchema = 'TRANSMI'
+                    }
+                    generate {
+                        fluentSetters = true
+                        validationAnnotations = true
+                        jpaAnnotations = true
+                        pojos = true
+                    }
+                    target {
+                        packageName = 'model'
+                        directory = 'src/main/java/com/uptc/app'
+                    }
+                    strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
+                }
+            }
+        }
+    }
+}
