@@ -52,7 +52,7 @@ jooq {
                 logging = org.jooq.meta.jaxb.Logging.WARN
                 jdbc {
                     driver = 'org.h2.Driver'
-                    url = 'jdbc:h2:tcp://192.168.80.1:9092/rodack'
+                    url = 'jdbc:h2:tcp://127.0.1.1:9092/rodack'
                     user = 'rodack'
                     password = 'rodack'
                 }
