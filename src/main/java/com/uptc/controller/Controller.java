@@ -163,4 +163,31 @@ public class Controller {
         System.out.println("Ignoradas: "+ignored);
     }
 
+
+
+
+    public void loadDataEstacionCSV(DSLContext create) throws IOException {
+        InputStream inputstream = new FileInputStream("src/main/resources/estaciones.csv");
+
+        Loader<EstacionRecord> csvLoader =
+                create.loadInto(ESTACION)
+                        .onDuplicateKeyError()
+                        .onErrorAbort()
+                        .commitAll()
+                        .loadCSV(inputstream)
+                        .fields(ESTACION.ID, ESTACION.NOMBRE, ESTACION.TIENE_TAQUILLA, ESTACION.UBICACION, ESTACION.SECTOR, ESTACION.VIAJE_ID, ESTACION.VIAJE_DISTANCIA, ESTACION.RUTA_ID)
+                        .quote('\'')
+                        .separator(';')
+                        .ignoreRows(0)
+                        .execute();
+
+        int processed = csvLoader.processed();
+        int stored = csvLoader.stored();
+        int ignored = csvLoader.ignored();
+
+        System.out.println("Procesadas: "+processed);
+        System.out.println("Almacenadas: "+stored);
+        System.out.println("Ignoradas: "+ignored);
+    }
+
 }
