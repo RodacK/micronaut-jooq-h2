@@ -1,8 +1,6 @@
 package com.uptc.controller;
 
-import model.tables.records.ConvenioRecord;
-import model.tables.records.PasajeroRecord;
-import model.tables.records.TarjetaRecord;
+import model.tables.records.*;
 import org.jooq.DSLContext;
 import org.jooq.Loader;
 
@@ -74,6 +72,57 @@ public class Controller {
                         .commitAll()
                         .loadCSV(inputstream)
                         .fields(TARJETA.ID, TARJETA.PERSONALIZADO, TARJETA.SALDO, TARJETA.PASAJERO_ID, TARJETA.CONVENIO_ID)
+                        .quote('\'')
+                        .separator(';')
+                        .ignoreRows(0)
+                        .execute();
+
+        int processed = csvLoader.processed();
+        int stored = csvLoader.stored();
+        int ignored = csvLoader.ignored();
+
+        System.out.println("Procesadas: "+processed);
+        System.out.println("Almacenadas: "+stored);
+        System.out.println("Ignoradas: "+ignored);
+    }
+
+
+    public void loadDataVehiculoCSV(DSLContext create) throws IOException {
+        InputStream inputstream = new FileInputStream("src/main/resources/vehiculos.csv");
+
+        Loader<VehiculoRecord> csvLoader =
+                create.loadInto(VEHICULO)
+                        .onDuplicateKeyError()
+                        .onErrorAbort()
+                        .commitAll()
+                        .loadCSV(inputstream)
+                        .fields(VEHICULO.ID, VEHICULO.PALCA, VEHICULO.CAPACIDAD, VEHICULO.COLOR)
+                        .quote('\'')
+                        .separator(';')
+                        .ignoreRows(0)
+                        .execute();
+
+        int processed = csvLoader.processed();
+        int stored = csvLoader.stored();
+        int ignored = csvLoader.ignored();
+
+        System.out.println("Procesadas: "+processed);
+        System.out.println("Almacenadas: "+stored);
+        System.out.println("Ignoradas: "+ignored);
+    }
+
+
+
+    public void loadDataViajeCSV(DSLContext create) throws IOException {
+        InputStream inputstream = new FileInputStream("src/main/resources/viajes.csv");
+
+        Loader<ViajeRecord> csvLoader =
+                create.loadInto(VIAJE)
+                        .onDuplicateKeyError()
+                        .onErrorAbort()
+                        .commitAll()
+                        .loadCSV(inputstream)
+                        .fields(VIAJE.ID, VIAJE.DISTANCIA, VIAJE.TARJETA_ID, VIAJE.VEHICULO_ID)
                         .quote('\'')
                         .separator(';')
                         .ignoreRows(0)

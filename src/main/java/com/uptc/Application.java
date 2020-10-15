@@ -9,17 +9,9 @@ import org.jooq.*;
 import org.jooq.exception.DataAccessException;
 import org.jooq.impl.DSL;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.List;
 
 
 public class Application {
@@ -50,10 +42,16 @@ public class Application {
             //staticSQL(create);
             //dynamic sql and loader api
             //dynamicSQL(create);
+
+
             //dynamic sql and loader api for csv
             //controller.loadDataConvenioCSV(create);
-            controller.loadDataPasajeroCSV(create);
-            controller.loadDataTarjetaCSV(create);
+            //controller.loadDataPasajeroCSV(create);
+            //controller.loadDataTarjetaCSV(create);
+            //controller.loadDataVehiculoCSV(create);
+            controller.loadDataViajeCSV(create);
+
+
             //dynamic sql and loader api for json
             //dynamicSQLExportJSON(create);
 
