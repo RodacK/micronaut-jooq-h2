@@ -49,8 +49,8 @@ public class Application {
             //controller.loadDataPasajeroCSV(create);
             //controller.loadDataTarjetaCSV(create);
             //controller.loadDataVehiculoCSV(create);
-            controller.loadDataViajeCSV(create);
-
+            //controller.loadDataViajeCSV(create);
+            controller.loadDataRutasCSV(create);
 
             //dynamic sql and loader api for json
             //dynamicSQLExportJSON(create);

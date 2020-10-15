@@ -138,4 +138,29 @@ public class Controller {
     }
 
 
+
+    public void loadDataRutasCSV(DSLContext create) throws IOException {
+        InputStream inputstream = new FileInputStream("src/main/resources/rutas.csv");
+
+        Loader<RutaRecord> csvLoader =
+                create.loadInto(RUTA)
+                        .onDuplicateKeyError()
+                        .onErrorAbort()
+                        .commitAll()
+                        .loadCSV(inputstream)
+                        .fields(RUTA.ID, RUTA.NOMBRE, RUTA.NUMERO, RUTA.INICIO, RUTA.FIN)
+                        .quote('\'')
+                        .separator(';')
+                        .ignoreRows(0)
+                        .execute();
+
+        int processed = csvLoader.processed();
+        int stored = csvLoader.stored();
+        int ignored = csvLoader.ignored();
+
+        System.out.println("Procesadas: "+processed);
+        System.out.println("Almacenadas: "+stored);
+        System.out.println("Ignoradas: "+ignored);
+    }
+
 }
