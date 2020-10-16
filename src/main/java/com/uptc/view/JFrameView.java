@@ -36,7 +36,7 @@ public class JFrameView extends JFrame {
         add(buttonShowDataDB);
         buttonShowDataDB.addActionListener(new ButtonShowDataDB());
 
-        setSize(500, 500);
+        setSize(500, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 

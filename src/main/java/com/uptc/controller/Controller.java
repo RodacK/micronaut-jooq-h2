@@ -28,6 +28,8 @@ public class Controller {
 
 
     public void loadDataCSV(String typeObject, String routeFile) {
+        long TInicio, TFin, tiempo;
+        TInicio = System.currentTimeMillis();
         InputStream inputstream = null;
         try {
             inputstream = new FileInputStream(routeFile);
@@ -172,7 +174,8 @@ public class Controller {
             default:
             System.out.println("Ninguna opcion");
         }
-
+        TFin = System.currentTimeMillis();
+        tiempo = TFin - TInicio;
         System.out.println("----------------------------------");
         System.out.println(typeObject);
         int processed = loader.processed();
@@ -182,11 +185,14 @@ public class Controller {
         System.out.println("Procesadas: "+processed);
         System.out.println("Almacenadas: "+stored);
         System.out.println("Ignoradas: "+ignored);
+        System.out.println("Tiempo de ejecución en milisegundos: " + tiempo);
         System.out.println("----------------------------------");
     }
 
 
     public void writeDataCSV(String typeObject, String file) {
+        long TInicio, TFin, tiempo;
+        TInicio = System.currentTimeMillis();
         PrintWriter writer = null;
         try {
             writer = new PrintWriter(new File(file));
@@ -220,10 +226,17 @@ public class Controller {
                 System.out.println("No encontrado");
         }
         writer.write(cvs);
+        TFin = System.currentTimeMillis();
+        tiempo = TFin - TInicio;
+        System.out.println("Tiempo de ejecución en milisegundos: " + tiempo);
+        System.out.println("----------------------------------");
+        System.out.println(typeObject);
     }
 
 
     public void readDataCSV(String typeObject) {
+        long TInicio, TFin, tiempo;
+        TInicio = System.currentTimeMillis();
         switch(typeObject){
             case "convenio":
                 Result<Record> resultConvenio = create.select().from(CONVENIO).fetch();
@@ -305,6 +318,11 @@ public class Controller {
             default:
                 System.out.println("Ninguna opción");
         }
+        TFin = System.currentTimeMillis();
+        tiempo = TFin - TInicio;
+        System.out.println("Tiempo de ejecución en milisegundos: " + tiempo);
+        System.out.println("----------------------------------");
+        System.out.println(typeObject);
     }
 
 
