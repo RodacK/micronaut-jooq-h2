@@ -1,29 +1,39 @@
 package com.uptc.controller;
 
-import model.tables.Vehiculo;
 import model.tables.records.*;
-import org.jooq.DSLContext;
-import org.jooq.Loader;
-import org.jooq.Record;
-import org.jooq.Result;
+import org.jooq.*;
+import org.jooq.impl.DSL;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Date;
 
 import static model.Tables.*;
 
 public class Controller {
 
-    public Controller(){
+    private Connection conn;
+    private DSLContext create;
 
+    public Controller(){
+        try {
+            conn = DriverManager.getConnection("jdbc:h2:tcp://127.0.1.1/rodack;schema=transmi", "rodack", "rodack");
+            create = DSL.using(conn, SQLDialect.H2);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
 
-
-
-    public void loadDataCSV(DSLContext create, String typeObject, String routeFile) throws IOException {
-        InputStream inputstream = new FileInputStream(routeFile);
+    public void loadDataCSV(String typeObject, String routeFile) {
+        InputStream inputstream = null;
+        try {
+            inputstream = new FileInputStream(routeFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         Loader<ConvenioRecord> csvLoaderConvenio = null;
         Loader<EstacionRecord> csvLoaderEstacion = null;
         Loader<PasajeroRecord> csvLoaderPasajero = null;
@@ -34,101 +44,129 @@ public class Controller {
         Loader loader = null;
         switch(typeObject){
             case "convenio":
-                csvLoaderConvenio =
-                        create.loadInto(CONVENIO)
-                                .onDuplicateKeyError()
-                                .onErrorAbort()
-                                .commitAll()
-                                .loadCSV(inputstream)
-                                .fields(CONVENIO.ID,CONVENIO.EMPRESA,CONVENIO.NUMERO_CONVENIO)
-                                .quote('\'')
-                                .separator(';')
-                                .ignoreRows(0)
-                                .execute();
+                try {
+                    csvLoaderConvenio =
+                            create.loadInto(CONVENIO)
+                                    .onDuplicateKeyError()
+                                    .onErrorAbort()
+                                    .commitAll()
+                                    .loadCSV(inputstream)
+                                    .fields(CONVENIO.ID,CONVENIO.EMPRESA,CONVENIO.NUMERO_CONVENIO)
+                                    .quote('\'')
+                                    .separator(';')
+                                    .ignoreRows(0)
+                                    .execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 loader = csvLoaderConvenio;
                 break;
             case "estacion":
-                csvLoaderEstacion =
-                        create.loadInto(ESTACION)
-                                .onDuplicateKeyError()
-                                .onErrorAbort()
-                                .commitAll()
-                                .loadCSV(inputstream)
-                                .fields(ESTACION.ID, ESTACION.NOMBRE, ESTACION.TIENE_TAQUILLA, ESTACION.UBICACION, ESTACION.SECTOR, ESTACION.VIAJE_ID, ESTACION.VIAJE_DISTANCIA, ESTACION.RUTA_ID)
-                                .quote('\'')
-                                .separator(';')
-                                .ignoreRows(0)
-                                .execute();
+                try {
+                    csvLoaderEstacion =
+                            create.loadInto(ESTACION)
+                                    .onDuplicateKeyError()
+                                    .onErrorAbort()
+                                    .commitAll()
+                                    .loadCSV(inputstream)
+                                    .fields(ESTACION.ID, ESTACION.NOMBRE, ESTACION.TIENE_TAQUILLA, ESTACION.UBICACION, ESTACION.SECTOR, ESTACION.VIAJE_ID, ESTACION.VIAJE_DISTANCIA, ESTACION.RUTA_ID)
+                                    .quote('\'')
+                                    .separator(';')
+                                    .ignoreRows(0)
+                                    .execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 loader = csvLoaderEstacion;
                 break;
             case "pasajero":
-                csvLoaderPasajero =
-                        create.loadInto(PASAJERO)
-                                .onDuplicateKeyError()
-                                .onErrorAbort()
-                                .commitAll()
-                                .loadCSV(inputstream)
-                                .fields(PASAJERO.ID,PASAJERO.NOMBRES,PASAJERO.EDAD,PASAJERO.GENERO)
-                                .quote('\'')
-                                .separator(';')
-                                .ignoreRows(0)
-                                .execute();
+                try {
+                    csvLoaderPasajero =
+                            create.loadInto(PASAJERO)
+                                    .onDuplicateKeyError()
+                                    .onErrorAbort()
+                                    .commitAll()
+                                    .loadCSV(inputstream)
+                                    .fields(PASAJERO.ID,PASAJERO.NOMBRES,PASAJERO.EDAD,PASAJERO.GENERO)
+                                    .quote('\'')
+                                    .separator(';')
+                                    .ignoreRows(0)
+                                    .execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 loader = csvLoaderPasajero;
                 break;
             case "ruta":
-                csvLoaderRuta =
-                        create.loadInto(RUTA)
-                                .onDuplicateKeyError()
-                                .onErrorAbort()
-                                .commitAll()
-                                .loadCSV(inputstream)
-                                .fields(RUTA.ID, RUTA.NOMBRE, RUTA.NUMERO, RUTA.INICIO, RUTA.FIN)
-                                .quote('\'')
-                                .separator(';')
-                                .ignoreRows(0)
-                                .execute();
+                try {
+                    csvLoaderRuta =
+                            create.loadInto(RUTA)
+                                    .onDuplicateKeyError()
+                                    .onErrorAbort()
+                                    .commitAll()
+                                    .loadCSV(inputstream)
+                                    .fields(RUTA.ID, RUTA.NOMBRE, RUTA.NUMERO, RUTA.INICIO, RUTA.FIN)
+                                    .quote('\'')
+                                    .separator(';')
+                                    .ignoreRows(0)
+                                    .execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 loader = csvLoaderRuta;
                 break;
             case "tarjeta":
-                csvLoaderTarjeta =
-                        create.loadInto(TARJETA)
-                                .onDuplicateKeyError()
-                                .onErrorAbort()
-                                .commitAll()
-                                .loadCSV(inputstream)
-                                .fields(TARJETA.ID, TARJETA.PERSONALIZADO, TARJETA.SALDO, TARJETA.PASAJERO_ID, TARJETA.CONVENIO_ID)
-                                .quote('\'')
-                                .separator(';')
-                                .ignoreRows(0)
-                                .execute();
+                try {
+                    csvLoaderTarjeta =
+                            create.loadInto(TARJETA)
+                                    .onDuplicateKeyError()
+                                    .onErrorAbort()
+                                    .commitAll()
+                                    .loadCSV(inputstream)
+                                    .fields(TARJETA.ID, TARJETA.PERSONALIZADO, TARJETA.SALDO, TARJETA.PASAJERO_ID, TARJETA.CONVENIO_ID)
+                                    .quote('\'')
+                                    .separator(';')
+                                    .ignoreRows(0)
+                                    .execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 loader = csvLoaderTarjeta;
                 break;
             case "vehiculo":
-                csvLoaderVehiculo =
-                        create.loadInto(VEHICULO)
-                                .onDuplicateKeyError()
-                                .onErrorAbort()
-                                .commitAll()
-                                .loadCSV(inputstream)
-                                .fields(VEHICULO.ID, VEHICULO.PALCA, VEHICULO.CAPACIDAD, VEHICULO.COLOR)
-                                .quote('\'')
-                                .separator(';')
-                                .ignoreRows(0)
-                                .execute();
+                try {
+                    csvLoaderVehiculo =
+                            create.loadInto(VEHICULO)
+                                    .onDuplicateKeyError()
+                                    .onErrorAbort()
+                                    .commitAll()
+                                    .loadCSV(inputstream)
+                                    .fields(VEHICULO.ID, VEHICULO.PALCA, VEHICULO.CAPACIDAD, VEHICULO.COLOR)
+                                    .quote('\'')
+                                    .separator(';')
+                                    .ignoreRows(0)
+                                    .execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 loader = csvLoaderVehiculo;
                 break;
             case "viaje":
-                csvLoaderViaje =
-                        create.loadInto(VIAJE)
-                                .onDuplicateKeyError()
-                                .onErrorAbort()
-                                .commitAll()
-                                .loadCSV(inputstream)
-                                .fields(VIAJE.ID, VIAJE.DISTANCIA, VIAJE.TARJETA_ID, VIAJE.VEHICULO_ID)
-                                .quote('\'')
-                                .separator(';')
-                                .ignoreRows(0)
-                                .execute();
+                try {
+                    csvLoaderViaje =
+                            create.loadInto(VIAJE)
+                                    .onDuplicateKeyError()
+                                    .onErrorAbort()
+                                    .commitAll()
+                                    .loadCSV(inputstream)
+                                    .fields(VIAJE.ID, VIAJE.DISTANCIA, VIAJE.TARJETA_ID, VIAJE.VEHICULO_ID)
+                                    .quote('\'')
+                                    .separator(';')
+                                    .ignoreRows(0)
+                                    .execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 loader = csvLoaderViaje;
                 break;
             default:
@@ -148,7 +186,7 @@ public class Controller {
     }
 
 
-    public void writeDataCSV(DSLContext create, String typeObject, String file) {
+    public void writeDataCSV(String typeObject, String file) {
         PrintWriter writer = null;
         try {
             writer = new PrintWriter(new File(file));
@@ -185,7 +223,7 @@ public class Controller {
     }
 
 
-    public void readDataCSV(DSLContext create, String typeObject) throws IOException {
+    public void readDataCSV(String typeObject) {
         switch(typeObject){
             case "convenio":
                 Result<Record> resultConvenio = create.select().from(CONVENIO).fetch();
@@ -271,7 +309,7 @@ public class Controller {
 
 
 
-    public void deleteTable(DSLContext create){
+    public void deleteTable(){
         for (int i = 1; i <= 200000; i++) {
             RutaRecord record = create.fetchOne(RUTA, RUTA.ID.eq(i));
             record.delete();
@@ -304,6 +342,25 @@ public class Controller {
             PasajeroRecord record = create.fetchOne(PASAJERO, PASAJERO.ID.eq(i));
             record.delete();
         }
+    }
+
+
+    public static void staticSQL(DSLContext create){
+        create.insertInto(CONVENIO,
+                CONVENIO.ID,CONVENIO.EMPRESA,CONVENIO.NUMERO_CONVENIO ).
+                values(9,"brfa",2312).execute();
+    }
+
+    public static void dynamicSQL(DSLContext create) throws IOException {
+        ConvenioRecord record = new ConvenioRecord(4,"holas",32);
+        Loader<ConvenioRecord> loader = create.loadInto(CONVENIO).onDuplicateKeyError().loadRecords(record).fields(CONVENIO.fields()).execute();
+        // The errors that may have occurred during loading
+        loader.errors().forEach(i -> System.out.println(i.exception()));
+    }
+
+    public static void dynamicSQLExportJSON(DSLContext create) throws IOException {
+        String json = create.selectFrom(CONVENIO).fetch().formatJSON();
+        System.out.println(json);
     }
 
 }
