@@ -51,7 +51,10 @@ public class Application {
             //controller.loadDataVehiculoCSV(create);
             //controller.loadDataViajeCSV(create);
             //controller.loadDataRutasCSV(create);
-            controller.loadDataEstacionCSV(create);
+            //controller.loadDataEstacionCSV(create);
+
+
+            controller.deleteTable(create);
 
 
             //dynamic sql and loader api for json

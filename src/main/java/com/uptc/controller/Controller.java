@@ -1,5 +1,6 @@
 package com.uptc.controller;
 
+import model.tables.Vehiculo;
 import model.tables.records.*;
 import org.jooq.DSLContext;
 import org.jooq.Loader;
@@ -12,6 +13,48 @@ import static model.Tables.*;
 
 public class Controller {
 
+    public Controller(){
+
+    }
+
+    public void loadDataCSV(DSLContext create, String routeFile, String typeObject) throws IOException {
+        InputStream inputstream = new FileInputStream(routeFile);
+
+        switch(typeObject){
+            case "convenio":
+
+                break;
+            case "estacion":
+
+                break;
+            case "pasajero":
+
+                break;
+            case "ruta":
+
+                break;
+            case "tareta":
+
+                break;
+            case "vehiculo":
+
+                break;
+            case "viaje":
+
+                break;
+            default:
+            System.out.println("Ninguna opcion");
+        }
+
+
+        int processed = csvLoader.processed();
+        int stored = csvLoader.stored();
+        int ignored = csvLoader.ignored();
+
+        System.out.println("Procesadas: "+processed);
+        System.out.println("Almacenadas: "+stored);
+        System.out.println("Ignoradas: "+ignored);
+    }
 
     public void loadDataConvenioCSV(DSLContext create) throws IOException {
         InputStream inputstream = new FileInputStream("src/main/resources/convenios.csv");
@@ -188,6 +231,41 @@ public class Controller {
         System.out.println("Procesadas: "+processed);
         System.out.println("Almacenadas: "+stored);
         System.out.println("Ignoradas: "+ignored);
+    }
+
+    public void deleteTable(DSLContext create){
+        for (int i = 1; i <= 200000; i++) {
+            RutaRecord record = create.fetchOne(RUTA, RUTA.ID.eq(i));
+            record.delete();
+        }
+
+//        for (int i = 1; i <= 200000; i++) {
+//            EstacionRecord record = create.fetchOne(ESTACION, ESTACION.ID.eq(i));
+//            record.delete();
+//        }
+
+        for (int i = 1; i <= 200000; i++) {
+            ViajeRecord record = create.fetchOne(VIAJE, VIAJE.ID.eq(i));
+            record.delete();
+        }
+
+        for (int i = 1; i <= 200000; i++) {
+            VehiculoRecord record = create.fetchOne(VEHICULO, VEHICULO.ID.eq(i));
+            record.delete();
+        }
+
+        for (int i = 1; i <= 200000; i++) {
+            TarjetaRecord record = create.fetchOne(TARJETA, TARJETA.ID.eq(i));
+            record.delete();
+        }
+        for (int i = 1; i <= 200000; i++) {
+            ConvenioRecord record = create.fetchOne(CONVENIO, CONVENIO.ID.eq(i));
+            record.delete();
+        }
+        for (int i = 1; i <= 200000; i++) {
+            PasajeroRecord record = create.fetchOne(PASAJERO, PASAJERO.ID.eq(i));
+            record.delete();
+        }
     }
 
 }
