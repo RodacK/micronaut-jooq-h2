@@ -3,10 +3,8 @@ package com.uptc;
 import static model.Tables.CONVENIO;
 
 import com.uptc.controller.Controller;
-import model.tables.pojos.Convenio;
 import model.tables.records.ConvenioRecord;
 import org.jooq.*;
-import org.jooq.exception.DataAccessException;
 import org.jooq.impl.DSL;
 
 import java.io.IOException;
@@ -45,29 +43,39 @@ public class Application {
 
 
             //dynamic sql and loader api for csv
-            //controller.loadDataConvenioCSV(create);
-            //controller.loadDataPasajeroCSV(create);
-            //controller.loadDataTarjetaCSV(create);
-            //controller.loadDataVehiculoCSV(create);
-            //controller.loadDataViajeCSV(create);
-            //controller.loadDataRutasCSV(create);
-            //controller.loadDataEstacionCSV(create);
+//            controller.loadDataCSV(create, "convenio", "src/main/resources/import/convenios.csv");
+//            controller.loadDataCSV(create, "pasajero", "src/main/resources/import/pasajeros.csv");
+//            controller.loadDataCSV(create, "tarjeta", "src/main/resources/import/tarjetas.csv");
+//            controller.loadDataCSV(create, "vehiculo", "src/main/resources/import/vehiculos.csv");
+//            controller.loadDataCSV(create, "viaje", "src/main/resources/import/viajes.csv");
+//            controller.loadDataCSV(create, "ruta", "src/main/resources/import/rutas.csv");
+//            controller.loadDataCSV(create, "estacion", "src/main/resources/import/estaciones.csv");
+
+//            controller.readDataCSV(create, "convenio");
+//            controller.readDataCSV(create, "pasajero");
+//            controller.readDataCSV(create, "tarjeta");
+//            controller.readDataCSV(create, "vehiculo");
+//            controller.readDataCSV(create, "viaje");
+//            controller.readDataCSV(create, "ruta");
+//            controller.readDataCSV(create, "estacion");
+
+            controller.writeDataCSV(create, "convenio","src/main/resources/export/convenios.csv");
+            controller.writeDataCSV(create, "pasajero","src/main/resources/export/pasajeros.csv");
+            controller.writeDataCSV(create, "tarjeta","src/main/resources/export/tarjetas.csv");
+            controller.writeDataCSV(create, "vehiculo","src/main/resources/export/vehiculos.csv");
+            controller.writeDataCSV(create, "viaje","src/main/resources/export/viajes.csv");
+            controller.writeDataCSV(create, "ruta","src/main/resources/export/rutas.csv");
+            controller.writeDataCSV(create, "estacion","src/main/resources/export/estacions.csv");
 
 
-            controller.deleteTable(create);
+
+            //controller.deleteTable(create);
 
 
             //dynamic sql and loader api for json
             //dynamicSQLExportJSON(create);
 
-//            Result<Record> result = create.select().from(CONVENIO).fetch();
-//            for (Record r : result) {
-//                Integer id = r.getValue(CONVENIO.ID);
-//                String empresa = r.getValue(CONVENIO.EMPRESA);
-//                Integer numero = r.getValue(CONVENIO.NUMERO_CONVENIO);
-//
-//                System.out.println("ID: " + id + " empresa: " + empresa + " numero: " + numero);
-//            }
+
         }catch (Exception e) {
             e.printStackTrace();
         }
