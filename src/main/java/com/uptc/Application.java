@@ -57,14 +57,14 @@ public class Application {
             //dynamic sql and loader api for json
             //dynamicSQLExportJSON(create);
 
-            Result<Record> result = create.select().from(CONVENIO).fetch();
-            for (Record r : result) {
-                Integer id = r.getValue(CONVENIO.ID);
-                String empresa = r.getValue(CONVENIO.EMPRESA);
-                Integer numero = r.getValue(CONVENIO.NUMERO_CONVENIO);
-
-                System.out.println("ID: " + id + " empresa: " + empresa + " numero: " + numero);
-            }
+//            Result<Record> result = create.select().from(CONVENIO).fetch();
+//            for (Record r : result) {
+//                Integer id = r.getValue(CONVENIO.ID);
+//                String empresa = r.getValue(CONVENIO.EMPRESA);
+//                Integer numero = r.getValue(CONVENIO.NUMERO_CONVENIO);
+//
+//                System.out.println("ID: " + id + " empresa: " + empresa + " numero: " + numero);
+//            }
         }catch (Exception e) {
             e.printStackTrace();
         }
