@@ -3,6 +3,7 @@ package com.uptc;
 import static model.Tables.CONVENIO;
 
 import com.uptc.controller.Controller;
+import com.uptc.view.JFrameView;
 import model.tables.records.ConvenioRecord;
 import org.jooq.*;
 import org.jooq.impl.DSL;
@@ -59,13 +60,16 @@ public class Application {
 //            controller.readDataCSV(create, "ruta");
 //            controller.readDataCSV(create, "estacion");
 
+            JFrameView jFrameView = new JFrameView();
+            jFrameView.setVisible(true);
+
             controller.writeDataCSV(create, "convenio","src/main/resources/export/convenios.csv");
             controller.writeDataCSV(create, "pasajero","src/main/resources/export/pasajeros.csv");
             controller.writeDataCSV(create, "tarjeta","src/main/resources/export/tarjetas.csv");
             controller.writeDataCSV(create, "vehiculo","src/main/resources/export/vehiculos.csv");
             controller.writeDataCSV(create, "viaje","src/main/resources/export/viajes.csv");
             controller.writeDataCSV(create, "ruta","src/main/resources/export/rutas.csv");
-            controller.writeDataCSV(create, "estacion","src/main/resources/export/estacions.csv");
+            controller.writeDataCSV(create, "estacion","src/main/resources/export/estaciones.csv");
 
 
 

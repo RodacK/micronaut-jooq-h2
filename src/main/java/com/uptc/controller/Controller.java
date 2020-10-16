@@ -150,73 +150,38 @@ public class Controller {
 
     public void writeDataCSV(DSLContext create, String typeObject, String file) {
         PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(new File(file));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        String cvs = "";
         switch (typeObject) {
             case "convenio":
-                try {
-                    writer = new PrintWriter(new File(file));
-                    String cvs = create.selectFrom(CONVENIO).fetch().formatCSV(';');
-                    writer.write(cvs);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                cvs = create.selectFrom(CONVENIO).fetch().formatCSV(';');
                 break;
             case "pasajero":
-                try {
-                    writer = new PrintWriter(new File(file));
-                    String cvs = create.selectFrom(PASAJERO).fetch().formatCSV(';');
-                    writer.write(cvs);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                cvs = create.selectFrom(PASAJERO).fetch().formatCSV(';');
                 break;
             case "tarjeta":
-                try {
-                    writer = new PrintWriter(new File(file));
-                    String cvs = create.selectFrom(TARJETA).fetch().formatCSV(';');
-                    writer.write(cvs);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                cvs = create.selectFrom(TARJETA).fetch().formatCSV(';');
                 break;
             case "viaje":
-                try {
-                    writer = new PrintWriter(new File(file));
-                    String cvs = create.selectFrom(VIAJE).fetch().formatCSV(';');
-                    writer.write(cvs);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                cvs = create.selectFrom(VIAJE).fetch().formatCSV(';');
                 break;
             case "ruta":
-                try {
-                    writer = new PrintWriter(new File(file));
-                    String cvs = create.selectFrom(RUTA).fetch().formatCSV(';');
-                    writer.write(cvs);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                cvs = create.selectFrom(RUTA).fetch().formatCSV(';');
                 break;
             case "estacion":
-                try {
-                    writer = new PrintWriter(new File(file));
-                    String cvs = create.selectFrom(ESTACION).fetch().formatCSV(';');
-                    writer.write(cvs);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                cvs = create.selectFrom(ESTACION).fetch().formatCSV(';');
                 break;
             case "vehiculo":
-                try {
-                    writer = new PrintWriter(new File(file));
-                    String cvs = create.selectFrom(VEHICULO).fetch().formatCSV(';');
-                    writer.write(cvs);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                cvs = create.selectFrom(VEHICULO).fetch().formatCSV(';');
                 break;
             default:
                 System.out.println("No encontrado");
         }
+        writer.write(cvs);
     }
 
 
