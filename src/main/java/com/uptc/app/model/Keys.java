@@ -53,7 +53,6 @@ public class Keys {
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
-    public static final ForeignKey<EstacionRecord, ViajeRecord> FK_ESTACION_VIAJE1 = ForeignKeys0.FK_ESTACION_VIAJE1;
     public static final ForeignKey<EstacionRecord, RutaRecord> FK_ESTACION_RUTA1 = ForeignKeys0.FK_ESTACION_RUTA1;
     public static final ForeignKey<TarjetaRecord, PasajeroRecord> FK_TARJETA_PASAJERO = ForeignKeys0.FK_TARJETA_PASAJERO;
     public static final ForeignKey<TarjetaRecord, ConvenioRecord> FK_TARJETA_CONVENIO1 = ForeignKeys0.FK_TARJETA_CONVENIO1;
@@ -75,7 +74,6 @@ public class Keys {
     }
 
     private static class ForeignKeys0 {
-        public static final ForeignKey<EstacionRecord, ViajeRecord> FK_ESTACION_VIAJE1 = Internal.createForeignKey(Keys.CONSTRAINT_4, Estacion.ESTACION, "FK_ESTACION_VIAJE1", new TableField[] { Estacion.ESTACION.VIAJE_ID, Estacion.ESTACION.VIAJE_DISTANCIA }, true);
         public static final ForeignKey<EstacionRecord, RutaRecord> FK_ESTACION_RUTA1 = Internal.createForeignKey(Keys.CONSTRAINT_2, Estacion.ESTACION, "FK_ESTACION_RUTA1", new TableField[] { Estacion.ESTACION.RUTA_ID }, true);
         public static final ForeignKey<TarjetaRecord, PasajeroRecord> FK_TARJETA_PASAJERO = Internal.createForeignKey(Keys.CONSTRAINT_7, Tarjeta.TARJETA, "FK_TARJETA_PASAJERO", new TableField[] { Tarjeta.TARJETA.PASAJERO_ID }, true);
         public static final ForeignKey<TarjetaRecord, ConvenioRecord> FK_TARJETA_CONVENIO1 = Internal.createForeignKey(Keys.CONSTRAINT_C, Tarjeta.TARJETA, "FK_TARJETA_CONVENIO1", new TableField[] { Tarjeta.TARJETA.CONVENIO_ID }, true);

@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 
 import static model.Tables.*;
 
@@ -19,7 +20,7 @@ public class Controller {
 
     public Controller(){
         try {
-            conn = DriverManager.getConnection("jdbc:h2:tcp://127.0.1.1/rodack;schema=transmi", "rodack", "rodack");
+            conn = DriverManager.getConnection("jdbc:h2:tcp://192.168.56.1/rodack;schema=transmi", "rodack", "rodack");
             create = DSL.using(conn, SQLDialect.H2);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -181,10 +182,13 @@ public class Controller {
         int processed = loader.processed();
         int stored = loader.stored();
         int ignored = loader.ignored();
+        List<LoaderError> errors =loader.errors();
 
         System.out.println("Procesadas: "+processed);
         System.out.println("Almacenadas: "+stored);
         System.out.println("Ignoradas: "+ignored);
+        System.out.println("Errores: ");
+        errors.forEach(i -> System.out.println(i.exception().getMessage()));
         System.out.println("Tiempo de ejecución en milisegundos: " + tiempo);
         System.out.println("----------------------------------");
     }
@@ -328,38 +332,17 @@ public class Controller {
 
 
     public void deleteTable(){
-        for (int i = 1; i <= 200000; i++) {
-            RutaRecord record = create.fetchOne(RUTA, RUTA.ID.eq(i));
-            record.delete();
-        }
-
-//        for (int i = 1; i <= 200000; i++) {
-//            EstacionRecord record = create.fetchOne(ESTACION, ESTACION.ID.eq(i));
-//            record.delete();
-//        }
-
-        for (int i = 1; i <= 200000; i++) {
-            ViajeRecord record = create.fetchOne(VIAJE, VIAJE.ID.eq(i));
-            record.delete();
-        }
-
-        for (int i = 1; i <= 200000; i++) {
-            VehiculoRecord record = create.fetchOne(VEHICULO, VEHICULO.ID.eq(i));
-            record.delete();
-        }
-
-        for (int i = 1; i <= 200000; i++) {
-            TarjetaRecord record = create.fetchOne(TARJETA, TARJETA.ID.eq(i));
-            record.delete();
-        }
-        for (int i = 1; i <= 200000; i++) {
-            ConvenioRecord record = create.fetchOne(CONVENIO, CONVENIO.ID.eq(i));
-            record.delete();
-        }
-        for (int i = 1; i <= 200000; i++) {
-            PasajeroRecord record = create.fetchOne(PASAJERO, PASAJERO.ID.eq(i));
-            record.delete();
-        }
+        create.deleteFrom(ESTACION).execute();
+        create.deleteFrom(RUTA).execute();
+        create.deleteFrom(VIAJE).execute();
+        create.deleteFrom(TARJETA).execute();
+        create.deleteFrom(VEHICULO).execute();
+        create.deleteFrom(CONVENIO).execute();
+        create.deleteFrom(PASAJERO).execute();
+        
+        //delete single object
+        //ViajeRecord record = create.fetchOne(VIAJE, VIAJE.ID.eq(i));
+        //record.delete();
     }
 
 

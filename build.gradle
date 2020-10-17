@@ -30,6 +30,8 @@ dependencies {
     implementation("io.micronaut:micronaut-runtime")
     implementation("javax.annotation:javax.annotation-api")
     implementation("io.micronaut:micronaut-http-client")
+    compile "io.micronaut:micronaut-http-server-netty"
+    compileOnly "io.micronaut:micronaut-inject-java"
     runtimeOnly("ch.qos.logback:logback-classic")
     implementation("io.micronaut.sql:micronaut-jooq")
     implementation('com.h2database:h2:1.4.200')
@@ -52,7 +54,7 @@ jooq {
                 logging = org.jooq.meta.jaxb.Logging.WARN
                 jdbc {
                     driver = 'org.h2.Driver'
-                    url = 'jdbc:h2:tcp://127.0.1.1:9092/rodack'
+                    url = 'jdbc:h2:tcp://192.168.56.1:9092/rodack'
                     user = 'rodack'
                     password = 'rodack'
                 }

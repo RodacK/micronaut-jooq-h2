@@ -1,6 +1,7 @@
 package com.uptc;
 
 import com.uptc.view.JFrameView;
+import io.micronaut.runtime.Micronaut;
 
 public class Application {
 

@@ -31,7 +31,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Estacion extends TableImpl<EstacionRecord> {
 
-    private static final long serialVersionUID = -1334021733;
+    private static final long serialVersionUID = 796978896;
 
     /**
      * The reference instance of <code>TRANSMI.ESTACION</code>
@@ -136,11 +136,7 @@ public class Estacion extends TableImpl<EstacionRecord> {
 
     @Override
     public List<ForeignKey<EstacionRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<EstacionRecord, ?>>asList(Keys.FK_ESTACION_VIAJE1, Keys.FK_ESTACION_RUTA1);
-    }
-
-    public Viaje viaje() {
-        return new Viaje(this, Keys.FK_ESTACION_VIAJE1);
+        return Arrays.<ForeignKey<EstacionRecord, ?>>asList(Keys.FK_ESTACION_RUTA1);
     }
 
     public Ruta ruta() {
